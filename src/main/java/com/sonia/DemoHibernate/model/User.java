@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -13,7 +13,7 @@ public class User {
 	private int userId;
 	private String userName;
 	private String userAddress;
-	@OneToMany(mappedBy = "user")
+	@ManyToMany(mappedBy = "user")
 	private List<Book> book = new ArrayList<Book>();
 
 	public int getUserId() {

@@ -1,7 +1,11 @@
 package com.sonia.DemoHibernate.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -10,9 +14,9 @@ public class Book {
 	private int bookId;
 	private String bootTitle;
 	private String bookAuthor;
-	
-	@ManyToOne
-	private User user;
+
+	@ManyToMany
+	private List<User> user = new ArrayList<User>();
 
 	public int getBookId() {
 		return bookId;
@@ -38,11 +42,11 @@ public class Book {
 		this.bookAuthor = bookAuthor;
 	}
 
-	public User getUser() {
+	public List<User> getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(List<User> user) {
 		this.user = user;
 	}
 

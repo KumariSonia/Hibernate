@@ -28,16 +28,31 @@ public class App {
 		book2.setBookId(2);
 		book2.setBootTitle("Power of Thinking Big");
 		book2.setBookAuthor("xyzAuthor");
-
-		User user = new User();
-		user.setUserId(101);
-		user.setUserName("Sonia Singh");
-		user.setUserAddress("Pune, India");
-		user.getBook().add(book1);
-		user.getBook().add(book2);
 		
-		book1.setUser(user);
-		book2.setUser(user);
+		Book book3 = new Book();
+		book3.setBookId(3);
+		book3.setBootTitle("magic of Thinking Big");
+		book3.setBookAuthor("xyzAuthor");
+
+		User user1 = new User();
+		user1.setUserId(101);
+		user1.setUserName("Sonia Singh");
+		user1.setUserAddress("Pune, India");
+		user1.getBook().add(book1);
+		user1.getBook().add(book2);
+		
+		User user2 = new User();
+		user2.setUserId(102);
+		user2.setUserName("Milan Bamaniya");
+		user2.setUserAddress("Gujarat, India");
+		user2.getBook().add(book1);
+		user2.getBook().add(book3);
+		
+		
+		book1.getUser().add(user2);
+		book1.getUser().add(user1);
+		book2.getUser().add(user1);
+		book3.getUser().add(user2);
 
 		Configuration configuration = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Book.class)
 				.addAnnotatedClass(User.class);
@@ -49,7 +64,9 @@ public class App {
 		Transaction transaction = session.beginTransaction();
 		session.save(book1);
 		session.save(book2);
-		session.save(user);
+		session.save(book3);
+		session.save(user1);
+		session.save(user2);
 		transaction.commit();
 
 	}
