@@ -1,5 +1,7 @@
 package com.sonia.DemoHibernate;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,37 +19,25 @@ public class App {
 		/*
 		 * Save Data
 		 */
-		Customer customer = null;
+
 		Configuration configuration = new Configuration().configure("hibernate.cfg.xml")
 				.addAnnotatedClass(Customer.class);
 
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 
-		Session session1 = sessionFactory.openSession();
+		Session session = sessionFactory.openSession();
 
-		session1.beginTransaction();
-		
-		Query query1 = session1.createQuery("from Customer where customerID=56");
-		query1.setCacheable(true);
+		session.beginTransaction();
 
-		customer = (Customer) query1.uniqueResult();
+		Query query = session.createQuery("from Customer");
 
-		System.out.println(customer);
+		List<Customer> customers = query.list();
+		for (Customer customer : customers) {
+			System.out.println(customer);
+		}
 
-		session1.getTransaction().commit();
-		session1.close();
-
-		Session session2 = sessionFactory.openSession();
-
-		session2.beginTransaction();
-
-		Query query2 = session2.createQuery("from Customer where customerID=56");
-		query2.setCacheable(true);
-		customer = (Customer) query2.uniqueResult();
-		System.out.println(customer);
-
-		session2.getTransaction().commit();
-		session2.close();
+		session.getTransaction().commit();
+		session.close();
 
 	}
 }
