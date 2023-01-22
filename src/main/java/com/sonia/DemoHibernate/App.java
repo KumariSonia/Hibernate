@@ -1,5 +1,6 @@
 package com.sonia.DemoHibernate;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -25,8 +26,11 @@ public class App {
 		Session session1 = sessionFactory.openSession();
 
 		session1.beginTransaction();
+		
+		Query query1 = session1.createQuery("from Customer where customerID=56");
+		query1.setCacheable(true);
 
-		customer = session1.get(Customer.class, 56);
+		customer = (Customer) query1.uniqueResult();
 
 		System.out.println(customer);
 
@@ -37,7 +41,9 @@ public class App {
 
 		session2.beginTransaction();
 
-		customer = session2.get(Customer.class, 56);
+		Query query2 = session2.createQuery("from Customer where customerID=56");
+		query2.setCacheable(true);
+		customer = (Customer) query2.uniqueResult();
 		System.out.println(customer);
 
 		session2.getTransaction().commit();
