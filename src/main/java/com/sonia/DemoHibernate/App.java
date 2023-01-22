@@ -1,13 +1,12 @@
 package com.sonia.DemoHibernate;
 
-import java.io.Serializable;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import com.sonia.DemoHibernate.model.Customer;
+import com.sonia.DemoHibernate.model.Book;
+import com.sonia.DemoHibernate.model.User;
 
 /**
  * Hibernate Examples
@@ -20,44 +19,38 @@ public class App {
 		 * Save Data
 		 */
 
-//		Customer cutomer = new Customer();
-//		cutomer.setCustomerName("Milan Bamaniya");
-//		cutomer.setContactName("Milan");
-//		cutomer.setAddress("Ahmedabad");
-//		cutomer.setCity("Ahmedabaddd");
-//		cutomer.setPostalCode("1234567898");
-//		cutomer.setCountry("India");
-//
-//		Configuration configuration = new Configuration().configure("hibernate.cfg.xml")
-//				.addAnnotatedClass(Customer.class);
-//
-//		SessionFactory sessionFactory = configuration.buildSessionFactory();
-//
-//		Session session = sessionFactory.openSession();
-//
-//		Transaction transaction = session.beginTransaction();
-//		Serializable status = session.save(cutomer);
-//		transaction.commit();
-//
-//		System.out.println("Data Saved " + status);
+		Book book1 = new Book();
+		book1.setBookId(1);
+		book1.setBootTitle("Good To Great");
+		book1.setBookAuthor("xyzAuthor");
 
-		/*
-		 * Fetch Data
-		 */
+		Book book2 = new Book();
+		book2.setBookId(2);
+		book2.setBootTitle("Power of Thinking Big");
+		book2.setBookAuthor("xyzAuthor");
 
-		Customer cutomer = null;
-		Configuration configuration = new Configuration().configure("hibernate.cfg.xml")
-				.addAnnotatedClass(Customer.class);
+		User user = new User();
+		user.setUserId(101);
+		user.setUserName("Sonia Singh");
+		user.setUserAddress("Pune, India");
+		user.getBook().add(book1);
+		user.getBook().add(book2);
+		
+		book1.setUser(user);
+		book2.setUser(user);
+
+		Configuration configuration = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Book.class)
+				.addAnnotatedClass(User.class);
 
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 
 		Session session = sessionFactory.openSession();
 
 		Transaction transaction = session.beginTransaction();
-		cutomer = session.get(Customer.class, 95);
+		session.save(book1);
+		session.save(book2);
+		session.save(user);
 		transaction.commit();
-
-		System.out.println(cutomer);
 
 	}
 }
