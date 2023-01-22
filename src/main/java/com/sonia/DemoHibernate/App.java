@@ -2,7 +2,6 @@ package com.sonia.DemoHibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.sonia.DemoHibernate.model.Customer;
@@ -23,17 +22,26 @@ public class App {
 
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 
-		Session session = sessionFactory.openSession();
+		Session session1 = sessionFactory.openSession();
 
-		Transaction transaction = session.beginTransaction();
+		session1.beginTransaction();
 
-		customer = session.get(Customer.class, 56);
+		customer = session1.get(Customer.class, 56);
+
 		System.out.println(customer);
 
-		customer = session.get(Customer.class, 56);  //will not fire query again
+		session1.getTransaction().commit();
+		session1.close();
+
+		Session session2 = sessionFactory.openSession();
+
+		session2.beginTransaction();
+
+		customer = session2.get(Customer.class, 56);
 		System.out.println(customer);
 
-		transaction.commit();
+		session2.getTransaction().commit();
+		session2.close();
 
 	}
 }
