@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -13,7 +14,9 @@ public class User {
 	private int userId;
 	private String userName;
 	private String userAddress;
-	@ManyToMany(mappedBy = "user")
+	@ManyToMany(mappedBy = "user", fetch = FetchType.EAGER) // Bydefault its lazy also it will fire two different query
+															// if you want Book //EAGER wil fire one query but with left
+															// out join with Book
 	private List<Book> book = new ArrayList<Book>();
 
 	public int getUserId() {
